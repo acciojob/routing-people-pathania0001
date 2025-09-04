@@ -7,13 +7,18 @@ function UserDetails() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(true);
-    fetch(`https://jsonplaceholder.typicode.com/users/${id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setUser(data);
-        setLoading(false);
-      });
+    setLoading(true); // always start with loading state
+    setUser(null);    // reset old user while fetching new one
+
+    // add a small artificial delay so "Loading..." is visible
+    setTimeout(() => {
+      fetch(`https://jsonplaceholder.typicode.com/users/${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setUser(data);
+          setLoading(false);
+        });
+    }, 300); // 300ms delay
   }, [id]);
 
   if (loading) {
